@@ -1,0 +1,29 @@
+meta {
+  name: Get my profile with broken token - 401
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{brokenToken}}
+}
+
+script:pre-request {
+  // change one character inside the signature of a real token, so it no longer matches
+  const token = bru.getEnvVar("customerAToken");
+  const i = token.length - 5;
+  const changed = token[i] === "A" ? "B" : "A";
+  bru.setEnvVar("brokenToken", token.slice(0, i) + changed + token.slice(i + 1));
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+}

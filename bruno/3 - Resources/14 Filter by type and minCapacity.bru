@@ -1,0 +1,28 @@
+meta {
+  name: Filter by type and minCapacity
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/resources?type=MEETING_ROOM&minCapacity=4
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("every result matches the filters", function () {
+    res.body.data.forEach(function (r) {
+      expect(r.type).to.equal('MEETING_ROOM');
+      expect(r.capacity).to.be.at.least(4);
+    });
+  });
+}

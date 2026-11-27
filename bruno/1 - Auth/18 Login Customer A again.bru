@@ -1,0 +1,36 @@
+meta {
+  name: Login Customer A again
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{customerAEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setEnvVar("customerAToken", res.body.accessToken);
+    bru.setEnvVar("customerARefreshToken", res.body.refreshToken);
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("returns an access token and a refresh token", function () {
+    expect(res.body.accessToken).to.be.a('string');
+    expect(res.body.refreshToken).to.be.a('string');
+  });
+}

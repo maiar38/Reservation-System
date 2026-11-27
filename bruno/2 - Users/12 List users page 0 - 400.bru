@@ -1,0 +1,21 @@
+meta {
+  name: List users page 0 - 400
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/users?page=0
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}

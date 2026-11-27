@@ -1,0 +1,25 @@
+meta {
+  name: Search with regex characters
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/resources?search=.*
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("treated as normal text", function () {
+    expect(res.body.meta.total).to.equal(0);
+  });
+}

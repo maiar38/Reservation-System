@@ -1,0 +1,25 @@
+meta {
+  name: Search resources
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/resources?search=nile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("finds the Nile room", function () {
+    expect(res.body.meta.total).to.be.at.least(1);
+  });
+}

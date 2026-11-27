@@ -1,0 +1,21 @@
+meta {
+  name: Get resource with invalid id - 400
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{baseUrl}}/resources/abc
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}

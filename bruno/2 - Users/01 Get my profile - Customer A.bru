@@ -1,0 +1,36 @@
+meta {
+  name: Get my profile - Customer A
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setEnvVar("customerAId", res.body._id);
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("it is Customer A", function () {
+    expect(res.body.email).to.equal(bru.getEnvVar('customerAEmail'));
+  });
+
+  test("no password or refresh token hash in the response", function () {
+    expect(res.body).to.not.have.property('password');
+    expect(res.body).to.not.have.property('refreshTokenHash');
+  });
+}

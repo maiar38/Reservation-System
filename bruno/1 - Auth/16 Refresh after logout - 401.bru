@@ -1,0 +1,23 @@
+meta {
+  name: Refresh after logout - 401
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/auth/refresh
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "refreshToken": "{{loggedOutRefreshToken}}"
+  }
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+}

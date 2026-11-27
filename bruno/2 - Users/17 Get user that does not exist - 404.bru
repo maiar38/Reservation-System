@@ -1,0 +1,25 @@
+meta {
+  name: Get user that does not exist - 404
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/users/000000000000000000000000
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 404", function () {
+    expect(res.status).to.equal(404);
+  });
+
+  test("error has the standard shape", function () {
+    expect(res.body).to.have.all.keys('statusCode', 'message', 'path', 'timestamp');
+  });
+}

@@ -1,0 +1,38 @@
+meta {
+  name: Create with time 8-00 format - 400
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Test Room",
+    "description": "Small room with a TV",
+    "type": "MEETING_ROOM",
+    "capacity": 8,
+    "operatingHours": {
+      "openTime": "8:00",
+      "closeTime": "18:00"
+    }
+  }
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("message mentions "openTime must look like 08:00"", function () {
+    expect(JSON.stringify(res.body.message)).to.include('openTime must look like 08:00');
+  });
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Update with invalid hours - 400
+  type: http
+  seq: 22
+}
+
+patch {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "operatingHours": {
+      "openTime": "20:00",
+      "closeTime": "19:00"
+    }
+  }
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}

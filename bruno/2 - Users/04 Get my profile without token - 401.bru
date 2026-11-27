@@ -1,0 +1,21 @@
+meta {
+  name: Get my profile without token - 401
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/users/me
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+
+  test("error has the standard shape", function () {
+    expect(res.body).to.have.all.keys('statusCode', 'message', 'path', 'timestamp');
+  });
+}

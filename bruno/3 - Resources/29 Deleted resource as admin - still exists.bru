@@ -1,0 +1,25 @@
+meta {
+  name: Deleted resource as admin - still exists
+  type: http
+  seq: 29
+}
+
+get {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("soft deleted", function () {
+    expect(res.body.isActive).to.equal(false);
+  });
+}

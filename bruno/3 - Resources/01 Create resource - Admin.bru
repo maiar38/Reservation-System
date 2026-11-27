@@ -1,0 +1,52 @@
+meta {
+  name: Create resource - Admin
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "{{resourceName}}",
+    "description": "Small room with a TV",
+    "type": "MEETING_ROOM",
+    "capacity": 8,
+    "operatingHours": {
+      "openTime": "08:00",
+      "closeTime": "18:00"
+    }
+  }
+}
+
+script:pre-request {
+  // unique name on every run, so the test can be run again
+  bru.setEnvVar("resourceName", "Nile Meeting Room " + Date.now());
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setEnvVar("resourceId", res.body._id);
+  }
+}
+
+tests {
+  test("status is 201", function () {
+    expect(res.status).to.equal(201);
+  });
+
+  test("saved with the right values", function () {
+    expect(res.body.name).to.equal(bru.getEnvVar('resourceName'));
+    expect(res.body.capacity).to.equal(8);
+    expect(res.body.operatingHours.openTime).to.equal('08:00');
+    expect(res.body.isActive).to.equal(true);
+  });
+}

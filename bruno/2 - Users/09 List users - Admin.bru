@@ -1,0 +1,37 @@
+meta {
+  name: List users - Admin
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/users?page=1&limit=5
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response is paginated", function () {
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.include.all.keys('page', 'limit', 'total', 'totalPages');
+  });
+
+  test("limit is respected", function () {
+    expect(res.body.meta.limit).to.equal(5);
+    expect(res.body.data.length).to.be.at.most(5);
+  });
+
+  test("no passwords in the list", function () {
+    res.body.data.forEach(function (user) {
+      expect(user).to.not.have.property('password');
+    });
+  });
+}

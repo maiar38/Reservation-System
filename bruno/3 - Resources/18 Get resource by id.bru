@@ -1,0 +1,25 @@
+meta {
+  name: Get resource by id
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("right resource", function () {
+    expect(res.body._id).to.equal(bru.getEnvVar('resourceId'));
+  });
+}

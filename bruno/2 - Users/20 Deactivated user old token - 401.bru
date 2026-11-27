@@ -1,0 +1,21 @@
+meta {
+  name: Deactivated user old token - 401
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{baseUrl}}/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerBToken}}
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+}

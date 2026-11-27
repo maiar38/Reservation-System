@@ -1,0 +1,21 @@
+meta {
+  name: Get user by id as customer - 403
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/users/{{customerBId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 403", function () {
+    expect(res.status).to.equal(403);
+  });
+}

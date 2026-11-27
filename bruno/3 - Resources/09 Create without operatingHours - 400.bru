@@ -1,0 +1,30 @@
+meta {
+  name: Create without operatingHours - 400
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "No Hours Room",
+    "description": "Small room with a TV",
+    "type": "MEETING_ROOM",
+    "capacity": 8
+  }
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}

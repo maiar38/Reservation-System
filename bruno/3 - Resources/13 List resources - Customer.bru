@@ -1,0 +1,32 @@
+meta {
+  name: List resources - Customer
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/resources
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response is paginated", function () {
+    expect(res.body.data).to.be.an('array');
+    expect(res.body.meta).to.include.all.keys('page', 'limit', 'total', 'totalPages');
+  });
+
+  test("customers only see active resources", function () {
+    res.body.data.forEach(function (r) {
+      expect(r.isActive).to.equal(true);
+    });
+  });
+}

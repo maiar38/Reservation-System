@@ -1,0 +1,31 @@
+meta {
+  name: Admin deactivates self - 400
+  type: http
+  seq: 25
+}
+
+patch {
+  url: {{baseUrl}}/users/{{adminId}}/status
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "isActive": false
+  }
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("message mentions "cannot deactivate your own account"", function () {
+    expect(JSON.stringify(res.body.message)).to.include('cannot deactivate your own account');
+  });
+}

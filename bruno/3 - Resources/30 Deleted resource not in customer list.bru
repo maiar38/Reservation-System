@@ -1,0 +1,26 @@
+meta {
+  name: Deleted resource not in customer list
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{baseUrl}}/resources?search=nile&limit=100
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("deleted room is hidden", function () {
+    const ids = res.body.data.map(function (r) { return r._id; });
+    expect(ids).to.not.include(bru.getEnvVar('resourceId'));
+  });
+}

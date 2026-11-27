@@ -1,0 +1,27 @@
+meta {
+  name: Update to an existing name - 409
+  type: http
+  seq: 23
+}
+
+patch {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "{{resource2Name}}"
+  }
+}
+
+tests {
+  test("status is 409", function () {
+    expect(res.status).to.equal(409);
+  });
+}

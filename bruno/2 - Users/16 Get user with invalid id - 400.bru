@@ -1,0 +1,21 @@
+meta {
+  name: Get user with invalid id - 400
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/users/abc
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}

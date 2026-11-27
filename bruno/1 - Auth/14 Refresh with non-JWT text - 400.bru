@@ -1,0 +1,23 @@
+meta {
+  name: Refresh with non-JWT text - 400
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/auth/refresh
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "refreshToken": "abc"
+  }
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Filter with invalid minCapacity - 400
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/resources?minCapacity=abc
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerAToken}}
+}
+
+tests {
+  test("status is 400", function () {
+    expect(res.status).to.equal(400);
+  });
+}
