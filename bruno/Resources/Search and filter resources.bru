@@ -1,0 +1,20 @@
+meta {
+  name: Search and filter resources
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/resources?search={{resourceName}}&type=MEETING_ROOM&minCapacity=4
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("finds the new resource", () => expect(res.body.data[0]._id).to.equal(bru.getVar("resourceId")));
+}

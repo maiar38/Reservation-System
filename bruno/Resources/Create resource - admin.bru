@@ -1,0 +1,40 @@
+meta {
+  name: Create resource - admin
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "{{resourceName}}",
+    "description": "Small room with a TV",
+    "type": "MEETING_ROOM",
+    "capacity": 8,
+    "operatingHours": {
+      "openTime": "08:00",
+      "closeTime": "18:00"
+    }
+  }
+}
+
+script:pre-request {
+  bru.setVar("resourceName", `Meeting Room ${Date.now()}`);
+}
+
+script:post-response {
+  bru.setVar("resourceId", res.body._id);
+}
+
+tests {
+  test("status is 201", () => expect(res.status).to.equal(201));
+}

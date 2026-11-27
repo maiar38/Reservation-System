@@ -1,0 +1,21 @@
+meta {
+  name: Refresh with used token - 401
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/auth/refresh
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "refreshToken": "{{usedRefreshToken}}"
+  }
+}
+
+tests {
+  test("status is 401", () => expect(res.status).to.equal(401));
+}

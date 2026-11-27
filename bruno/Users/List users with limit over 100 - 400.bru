@@ -1,0 +1,19 @@
+meta {
+  name: List users with limit over 100 - 400
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/users?limit=101
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 400", () => expect(res.status).to.equal(400));
+}

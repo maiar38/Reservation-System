@@ -1,0 +1,25 @@
+meta {
+  name: Update my profile with role - 400
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/users/me
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+body:json {
+  {
+    "role": "ADMIN"
+  }
+}
+
+tests {
+  test("status is 400", () => expect(res.status).to.equal(400));
+}

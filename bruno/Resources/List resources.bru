@@ -1,0 +1,23 @@
+meta {
+  name: List resources
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/resources
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("returns data and meta", () => {
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta).to.have.property("total");
+  });
+}

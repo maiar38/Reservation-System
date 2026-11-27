@@ -1,0 +1,33 @@
+meta {
+  name: Register customer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Test Customer",
+    "email": "{{customerEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+script:pre-request {
+  bru.setVar("customerEmail", `customer.${Date.now()}@example.com`);
+}
+
+script:post-response {
+  bru.setVar("customerId", res.body._id);
+}
+
+tests {
+  test("status is 201", () => expect(res.status).to.equal(201));
+  test("new user is a customer", () => expect(res.body.role).to.equal("CUSTOMER"));
+  test("password is not returned", () => expect(res.body).to.not.have.property("password"));
+}

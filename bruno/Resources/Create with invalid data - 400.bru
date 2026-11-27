@@ -1,0 +1,31 @@
+meta {
+  name: Create with invalid data - 400
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Bad Room",
+    "type": "GARAGE",
+    "capacity": 0,
+    "operatingHours": {
+      "openTime": "8:00",
+      "closeTime": "25:00"
+    }
+  }
+}
+
+tests {
+  test("status is 400", () => expect(res.status).to.equal(400));
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Deactivate second customer
+  type: http
+  seq: 13
+}
+
+patch {
+  url: {{baseUrl}}/users/{{secondCustomerId}}/status
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "isActive": false
+  }
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("user is inactive", () => expect(res.body.isActive).to.equal(false));
+}

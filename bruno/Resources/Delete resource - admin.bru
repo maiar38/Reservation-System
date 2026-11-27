@@ -1,0 +1,19 @@
+meta {
+  name: Delete resource - admin
+  type: http
+  seq: 15
+}
+
+delete {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 204", () => expect(res.status).to.equal(204));
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Update resource - admin
+  type: http
+  seq: 12
+}
+
+patch {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "capacity": 10
+  }
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("capacity is updated", () => expect(res.body.capacity).to.equal(10));
+}

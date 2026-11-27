@@ -1,0 +1,20 @@
+meta {
+  name: Search users
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/users?search={{customerEmail}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("finds the customer", () => expect(res.body.data[0]._id).to.equal(bru.getVar("customerId")));
+}

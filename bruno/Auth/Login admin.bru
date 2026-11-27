@@ -1,0 +1,31 @@
+meta {
+  name: Login admin
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}"
+  }
+}
+
+script:post-response {
+  bru.setVar("adminToken", res.body.accessToken);
+  bru.setVar("adminRefreshToken", res.body.refreshToken);
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("returns both tokens", () => {
+    expect(res.body.accessToken).to.be.a("string");
+    expect(res.body.refreshToken).to.be.a("string");
+  });
+}

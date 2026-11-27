@@ -1,0 +1,22 @@
+meta {
+  name: Deactivated user login - 403
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{secondCustomerEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+tests {
+  test("status is 403", () => expect(res.status).to.equal(403));
+}

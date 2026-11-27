@@ -1,0 +1,27 @@
+meta {
+  name: Create resource without token - 401
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Training Room",
+    "type": "TRAINING_ROOM",
+    "capacity": 20,
+    "operatingHours": {
+      "openTime": "09:00",
+      "closeTime": "17:00"
+    }
+  }
+}
+
+tests {
+  test("status is 401", () => expect(res.status).to.equal(401));
+}

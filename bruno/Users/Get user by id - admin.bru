@@ -1,0 +1,19 @@
+meta {
+  name: Get user by id - admin
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/users/{{customerId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+}

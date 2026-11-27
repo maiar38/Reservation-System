@@ -1,0 +1,25 @@
+meta {
+  name: Update resource as customer - 403
+  type: http
+  seq: 13
+}
+
+patch {
+  url: {{baseUrl}}/resources/{{resourceId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+body:json {
+  {
+    "capacity": 50
+  }
+}
+
+tests {
+  test("status is 403", () => expect(res.status).to.equal(403));
+}

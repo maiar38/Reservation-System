@@ -1,0 +1,28 @@
+meta {
+  name: Register duplicate email - 409
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Test Customer",
+    "email": "{{upperCaseEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+script:pre-request {
+  // same email in capitals should still count as a duplicate
+  bru.setVar("upperCaseEmail", bru.getVar("customerEmail").toUpperCase());
+}
+
+tests {
+  test("status is 409", () => expect(res.status).to.equal(409));
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Update my profile
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/users/me
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+body:json {
+  {
+    "name": "Updated Customer"
+  }
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("name is updated", () => expect(res.body.name).to.equal("Updated Customer"));
+}

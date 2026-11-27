@@ -1,0 +1,31 @@
+meta {
+  name: Refresh tokens
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/auth/refresh
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "refreshToken": "{{customerRefreshToken}}"
+  }
+}
+
+script:pre-request {
+  bru.setVar("usedRefreshToken", bru.getVar("customerRefreshToken"));
+}
+
+script:post-response {
+  bru.setVar("customerToken", res.body.accessToken);
+  bru.setVar("customerRefreshToken", res.body.refreshToken);
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("returns a new refresh token", () => expect(res.body.refreshToken).to.not.equal(bru.getVar("usedRefreshToken")));
+}

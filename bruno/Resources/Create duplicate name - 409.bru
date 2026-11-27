@@ -1,0 +1,31 @@
+meta {
+  name: Create duplicate name - 409
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "{{resourceName}}",
+    "type": "MEETING_ROOM",
+    "capacity": 4,
+    "operatingHours": {
+      "openTime": "08:00",
+      "closeTime": "18:00"
+    }
+  }
+}
+
+tests {
+  test("status is 409", () => expect(res.status).to.equal(409));
+}

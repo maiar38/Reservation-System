@@ -1,0 +1,31 @@
+meta {
+  name: Create with closeTime before openTime - 400
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/resources
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Late Room",
+    "type": "PRIVATE_OFFICE",
+    "capacity": 2,
+    "operatingHours": {
+      "openTime": "18:00",
+      "closeTime": "08:00"
+    }
+  }
+}
+
+tests {
+  test("status is 400", () => expect(res.status).to.equal(400));
+}

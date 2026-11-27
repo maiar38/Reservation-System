@@ -1,0 +1,23 @@
+meta {
+  name: List users - admin
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/users?page=1&limit=5
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("returns data and meta", () => {
+    expect(res.body.data).to.be.an("array");
+    expect(res.body.meta.limit).to.equal(5);
+  });
+}

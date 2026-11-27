@@ -1,0 +1,25 @@
+meta {
+  name: Activate second customer
+  type: http
+  seq: 16
+}
+
+patch {
+  url: {{baseUrl}}/users/{{secondCustomerId}}/status
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "isActive": true
+  }
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+}

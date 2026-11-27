@@ -1,0 +1,19 @@
+meta {
+  name: List users as customer - 403
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/users
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+tests {
+  test("status is 403", () => expect(res.status).to.equal(403));
+}

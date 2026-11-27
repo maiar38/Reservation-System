@@ -1,0 +1,31 @@
+meta {
+  name: Register second customer
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Second Customer",
+    "email": "{{secondCustomerEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+script:pre-request {
+  bru.setVar("secondCustomerEmail", `second.${Date.now()}@example.com`);
+}
+
+script:post-response {
+  bru.setVar("secondCustomerId", res.body._id);
+}
+
+tests {
+  test("status is 201", () => expect(res.status).to.equal(201));
+}

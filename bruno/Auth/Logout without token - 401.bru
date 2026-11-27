@@ -1,0 +1,15 @@
+meta {
+  name: Logout without token - 401
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/auth/logout
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 401", () => expect(res.status).to.equal(401));
+}

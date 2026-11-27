@@ -1,0 +1,25 @@
+meta {
+  name: Admin deactivates self - 400
+  type: http
+  seq: 17
+}
+
+patch {
+  url: {{baseUrl}}/users/{{adminId}}/status
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "isActive": false
+  }
+}
+
+tests {
+  test("status is 400", () => expect(res.status).to.equal(400));
+}

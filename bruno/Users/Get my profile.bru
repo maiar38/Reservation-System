@@ -1,0 +1,24 @@
+meta {
+  name: Get my profile
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("is the logged in customer", () => expect(res.body._id).to.equal(bru.getVar("customerId")));
+  test("no password or token hash", () => {
+    expect(res.body).to.not.have.property("password");
+    expect(res.body).to.not.have.property("refreshTokenHash");
+  });
+}

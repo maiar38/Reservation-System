@@ -1,0 +1,31 @@
+meta {
+  name: Login customer
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{customerEmail}}",
+    "password": "{{customerPassword}}"
+  }
+}
+
+script:post-response {
+  bru.setVar("customerToken", res.body.accessToken);
+  bru.setVar("customerRefreshToken", res.body.refreshToken);
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+  test("returns both tokens", () => {
+    expect(res.body.accessToken).to.be.a("string");
+    expect(res.body.refreshToken).to.be.a("string");
+  });
+}

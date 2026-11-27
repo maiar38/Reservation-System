@@ -1,0 +1,23 @@
+meta {
+  name: Get admin profile
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+script:post-response {
+  bru.setVar("adminId", res.body._id);
+}
+
+tests {
+  test("status is 200", () => expect(res.status).to.equal(200));
+}
