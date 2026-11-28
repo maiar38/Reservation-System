@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import { envValidationSchema } from './config/env.validation';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ResourcesModule } from './resources/resources.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -20,11 +22,15 @@ import { ResourcesModule } from './resources/resources.module';
       }),
     }),
 
+    ScheduleModule.forRoot(),
+
     UsersModule,
 
     AuthModule,
 
     ResourcesModule,
+
+    ReservationsModule,
   ],
 
   controllers: [],

@@ -23,7 +23,7 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Reservation Management System')
-    .setDescription('API for users, resources and reservations')
+    .setDescription('Dates use ISO 8601. Resource operating hours are in UTC.')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
